@@ -1,8 +1,8 @@
+import BountyCard, { Bounty } from '@/components/bounty'
 import { USDCIcon } from '@/components/icons/USDCIcon'
 import Page from '@/components/page'
 import Section from '@/components/section'
-import Bounty, { Token } from '@/components/bounty'
-import { linkToLamboAddress, linkToLamboAbi } from '@/lib/contracts/LinkToLambo'
+import { bountyAddress, bountyABI } from '@/lib/contracts/Bounty'
 import { usdcContractAddress, usdcContractAbi } from '@/lib/contracts/USDC'
 import { isEthereumWallet } from '@dynamic-labs/ethereum'
 import {
@@ -17,60 +17,13 @@ import { Address, encodeAbiParameters, keccak256 } from 'viem'
 const Index = () => {
 	const isLoggedIn = useIsLoggedIn()
 	const { primaryWallet, network } = useDynamicContext()
-	const [tokenBalances, setTokenBalances] = useState<Token[]>([])
-	const [storedPasswords, setStoredPasswords] = useState<string[]>([])
-	const [storedBlobs, setStoredBlobs] = useState<string[]>([])
-	const [passwordTokens, setPasswordTokens] = useState<Token[]>([])
 	const [username, setUsername] = useState<string>('')
-
-	useEffect(() => {
-		const storedPasswords = localStorage.getItem('storedPasswords')
-		if (storedPasswords) {
-			setStoredPasswords(storedPasswords.split('|'))
-		}
-		const storedBlobs = localStorage.getItem('storedBlobs')
-		if (storedBlobs) {
-			setStoredBlobs(storedBlobs.split('|'))
-		}
-	}, [])
+	const [bounties, setBounties] = useState<Bounty[]>([])
 
 	useEffect(() => {
 		const fetchPasswords = async () => {
 			if (primaryWallet && isEthereumWallet(primaryWallet) && network) {
 				const client = await primaryWallet.getPublicClient()
-				const tokenAmounts: number[] = []
-				const tokenAddresses: Address[] = []
-
-				for (const password of storedPasswords) {
-					const tokenAmount = await client.readContract({
-						address: linkToLamboAddress[Number(network)],
-						abi: linkToLamboAbi,
-						functionName: 'tokenAmounts',
-						args: [
-							keccak256(encodeAbiParameters([{ type: 'string' }], [password])),
-						],
-					})
-					tokenAmounts.push(Number(tokenAmount))
-				}
-				for (const password of storedPasswords) {
-					const tokenAddress = await client.readContract({
-						address: linkToLamboAddress[Number(network)],
-						abi: linkToLamboAbi,
-						functionName: 'tokenAddresses',
-						args: [
-							keccak256(encodeAbiParameters([{ type: 'string' }], [password])),
-						],
-					})
-					tokenAddresses.push(tokenAddress as Address)
-				}
-				console.log(tokenAmounts, tokenAddresses)
-				setPasswordTokens(
-					tokenAmounts.map((amount, index) => ({
-						address: tokenAddresses[index],
-						amount,
-						name: 'USDC',
-					})),
-				)
 				try {
 					let creator_ens = await client.getEnsName({
 						address: primaryWallet.address as Address,
@@ -83,10 +36,17 @@ const Index = () => {
 						`Welcome to SmolSend ${primaryWallet.address as Address}!`,
 					)
 				}
+				const bountyIds = await client.readContract({
+					address: bountyAddress[Number(network)],
+					abi: bountyABI,
+					functionName: 'getBounties',
+				})
+				console.log(bountyIds)
+				setBounties(bountyIds as Bounty[])
 			}
 		}
 		fetchPasswords()
-	}, [storedBlobs, network])
+	}, [network])
 
 	useEffect(() => {
 		const fetchTokenBalance = async () => {
@@ -103,13 +63,6 @@ const Index = () => {
 					abi: usdcContractAbi,
 					functionName: 'name',
 				})
-				setTokenBalances([
-					{
-						address: usdcContractAddress[Number(network)],
-						amount: Number(balance),
-						name: name,
-					},
-				])
 			}
 		}
 		fetchTokenBalance()
@@ -146,22 +99,8 @@ const Index = () => {
 			<Section>
 				<div className='container mx-auto px-4 py-8'>
 					<h1 className='text-3xl font-bold mb-4'>Available Bounties</h1>
-					{tokenBalances.map((tokenBalance) => (
-						<TokenDisplay
-							key={tokenBalance.address}
-							address={tokenBalance.address}
-							amount={tokenBalance.amount}
-							name={tokenBalance.name}
-						/>
-					))}
-					<h1 className='text-3xl font-bold mb-4'>Filled Bounties</h1>
-					{passwordTokens.map((tokenBalance) => (
-						<TokenDisplay
-							key={tokenBalance.address}
-							address={tokenBalance.address}
-							amount={tokenBalance.amount}
-							name={tokenBalance.name}
-						/>
+					{bounties.map((bounty) => (
+						<BountyCard key={bounty.tweetId} bounty={bounty} />
 					))}
 				</div>
 			</Section>
