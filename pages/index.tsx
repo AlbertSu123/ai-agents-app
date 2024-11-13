@@ -1,7 +1,7 @@
 import { USDCIcon } from '@/components/icons/USDCIcon'
 import Page from '@/components/page'
 import Section from '@/components/section'
-import TokenDisplay, { Token } from '@/components/token-display'
+import Bounty, { Token } from '@/components/bounty'
 import { linkToLamboAddress, linkToLamboAbi } from '@/lib/contracts/LinkToLambo'
 import { usdcContractAddress, usdcContractAbi } from '@/lib/contracts/USDC'
 import { isEthereumWallet } from '@dynamic-labs/ethereum'
@@ -121,10 +121,10 @@ const Index = () => {
 				<Section>
 					<div className='container mx-auto px-4 flex flex-col items-center justify-center min-h-screen'>
 						<h1 className='text-5xl font-extrabold text-center mb-6 text-black shadow-text'>
-							Send Tokens to Anyone, Anywhere
+							Get paid for your banger tweets
 						</h1>
 						<h2 className='text-2xl text-center mb-8 text-black shadow-text'>
-							Create a magical link and share the wealth
+							Pay high performing KOLs, not mediocre ones
 						</h2>
 						<div className='flex justify-center'>
 							<DynamicWidget
@@ -140,11 +140,12 @@ const Index = () => {
 			</Page>
 		)
 	}
+
 	return (
 		<Page>
 			<Section>
 				<div className='container mx-auto px-4 py-8'>
-					<h1 className='text-3xl font-bold mb-4'>Your tokens</h1>
+					<h1 className='text-3xl font-bold mb-4'>Available Bounties</h1>
 					{tokenBalances.map((tokenBalance) => (
 						<TokenDisplay
 							key={tokenBalance.address}
@@ -153,7 +154,7 @@ const Index = () => {
 							name={tokenBalance.name}
 						/>
 					))}
-					<h1 className='text-3xl font-bold mb-4'>Your passwords</h1>
+					<h1 className='text-3xl font-bold mb-4'>Filled Bounties</h1>
 					{passwordTokens.map((tokenBalance) => (
 						<TokenDisplay
 							key={tokenBalance.address}

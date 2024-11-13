@@ -6,6 +6,7 @@ import { linkToLamboAbi, linkToLamboAddress } from '@/lib/contracts/LinkToLambo'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { parseGwei } from 'viem'
+import { bountyAddress, bountyABI } from '@/lib/contracts/Bounty'
 
 export default function RedeemButton({
 	password,
@@ -24,8 +25,8 @@ export default function RedeemButton({
 			const loading = toast.loading('Redeeming link...')
 			const client = await primaryWallet.getWalletClient(network.toString())
 			const redeemTx = await client.writeContract({
-				address: linkToLamboAddress[Number(network)],
-				abi: linkToLamboAbi,
+				address: bountyAddress[Number(network)],
+				abi: bountyABI,
 				functionName: 'redeemLink',
 				args: [password],
 				gasPrice: Number(network) === 545 ? parseGwei('20') : undefined,
