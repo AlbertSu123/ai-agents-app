@@ -41,7 +41,6 @@ const Index = () => {
 					abi: bountyABI,
 					functionName: 'getBounties',
 				})
-				console.log(bountyIds)
 				setBounties(bountyIds as Bounty[])
 			}
 		}
