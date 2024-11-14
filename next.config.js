@@ -13,4 +13,5 @@ module.exports = withPWA({
 	images: {
 		domains: ['images.unsplash.com', 'source.unsplash.com'],
 	},
+	transpilePackages: ['react-tweet']
 })

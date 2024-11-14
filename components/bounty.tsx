@@ -1,6 +1,7 @@
 import { Address, zeroAddress } from 'viem'
 import { formatAddress } from '@/lib/utils'
 import FillBountyButton from './transactions/FillBountyButton'
+import { Tweet } from 'react-tweet'
 
 export type Bounty = {
 	tweetId: string
@@ -62,6 +63,7 @@ export default function BountyCard({ bounty }: { bounty: Bounty }) {
 						Completed at:{' '}
 						{new Date(Number(bounty.filledAt) * 1000).toLocaleDateString()}
 					</p>
+					<Tweet id={bounty.tweetId} />
 				</div>
 			)}
 			{isActive && <FillBountyButton bountyId={bounty.bountyId} />}

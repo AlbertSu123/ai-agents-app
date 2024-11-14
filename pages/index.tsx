@@ -12,7 +12,7 @@ import {
 } from '@dynamic-labs/sdk-react-core'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { Address, encodeAbiParameters, keccak256 } from 'viem'
+import { Address, encodeAbiParameters, keccak256, zeroAddress } from 'viem'
 
 const Index = () => {
 	const isLoggedIn = useIsLoggedIn()
@@ -41,10 +41,12 @@ const Index = () => {
 					functionName: 'getBounties',
 				})
 				setBounties(
-					(bountyIds as Bounty[]).map((bounty, index) => ({
-						...bounty,
-						bountyId: index,
-					})),
+					(bountyIds as Bounty[])
+						.filter((bounty) => bounty.filledBy === zeroAddress)
+						.map((bounty, index) => ({
+							...bounty,
+							bountyId: index,
+						})),
 				)
 				console.log(bounties)
 			}
