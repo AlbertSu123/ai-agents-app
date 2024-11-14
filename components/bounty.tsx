@@ -1,5 +1,6 @@
 import { Address, zeroAddress } from 'viem'
 import { formatAddress } from '@/lib/utils'
+import FillBountyButton from './transactions/FillBountyButton'
 
 export type Bounty = {
 	tweetId: string
@@ -10,6 +11,7 @@ export type Bounty = {
 	minViewCount: number
 	filledAt: number
 	filledBy: Address
+	bountyId: number
 }
 
 export default function BountyCard({ bounty }: { bounty: Bounty }) {
@@ -62,6 +64,7 @@ export default function BountyCard({ bounty }: { bounty: Bounty }) {
 					</p>
 				</div>
 			)}
+			{isActive && <FillBountyButton bountyId={bounty.bountyId} />}
 		</div>
 	)
 }

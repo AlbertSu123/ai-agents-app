@@ -17,7 +17,6 @@ import { Address, encodeAbiParameters, keccak256 } from 'viem'
 const Index = () => {
 	const isLoggedIn = useIsLoggedIn()
 	const { primaryWallet, network } = useDynamicContext()
-	const [username, setUsername] = useState<string>('')
 	const [bounties, setBounties] = useState<Bounty[]>([])
 
 	useEffect(() => {
@@ -41,7 +40,13 @@ const Index = () => {
 					abi: bountyABI,
 					functionName: 'getBounties',
 				})
-				setBounties(bountyIds as Bounty[])
+				setBounties(
+					(bountyIds as Bounty[]).map((bounty, index) => ({
+						...bounty,
+						bountyId: index,
+					})),
+				)
+				console.log(bounties)
 			}
 		}
 		fetchPasswords()
