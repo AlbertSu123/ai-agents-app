@@ -383,7 +383,7 @@ export const zircuitTestnet = defineChain({
 	},
 })
 
-const supportedNetworks = [
+export const supportedNetworks = [
 	bitKubTestnet,
 	celoTestnet,
 	chilizTestnet,
