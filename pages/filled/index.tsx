@@ -48,7 +48,7 @@ const Index = () => {
 							bountyId: index,
 						})),
 				)
-				console.log(bounties)
+				console.log('Filled bounties:', bounties)
 			}
 		}
 		fetchPasswords()
