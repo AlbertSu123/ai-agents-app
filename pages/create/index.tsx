@@ -2,13 +2,13 @@ import Page from '@/components/page'
 import { useState } from 'react'
 import Section from '@/components/section'
 import { Input } from '@/components/ui/input'
-import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { API_URL } from '@/lib/constants'
+import { usePrivy } from '@privy-io/react-auth'
 
 export default function Create() {
-	const { primaryWallet, network } = useDynamicContext()
+	const { user } = usePrivy()
 	const [title, setTitle] = useState<string | null>(null)
 	const [description, setDescription] = useState<string | null>(null)
 	const [value, setValue] = useState<number | null>(null)
@@ -26,7 +26,7 @@ export default function Create() {
 				description: description,
 				value: value,
 				bountyScore: Number(bountyScore),
-				creatingUsername: primaryWallet?.address,
+				creatingUsername: user?.twitter?.username,
 			}),
 		})
 		console.log(res)

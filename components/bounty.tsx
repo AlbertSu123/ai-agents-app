@@ -71,7 +71,7 @@ export default function BountyCard({ bounty }: { bounty: Bounty }) {
 					<Tweet id={bounty.tweetId} />
 				</div>
 			)}
-			{isActive && <FillBountyButton bountyId={bounty.id} />}
+			{isActive && <FillBountyButton bounty={bounty} />}
 		</div>
 	)
 }

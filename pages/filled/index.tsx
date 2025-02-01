@@ -2,79 +2,25 @@ import BountyCard, { Bounty } from '@/components/bounty'
 import { USDCIcon } from '@/components/icons/USDCIcon'
 import Page from '@/components/page'
 import Section from '@/components/section'
-import { bountyAddress, bountyABI } from '@/lib/contracts/Bounty'
-import { usdcContractAddress, usdcContractAbi } from '@/lib/contracts/USDC'
-import { isEthereumWallet } from '@dynamic-labs/ethereum'
-import {
-	DynamicWidget,
-	useDynamicContext,
-	useIsLoggedIn,
-} from '@dynamic-labs/sdk-react-core'
+import { Button } from '@/components/ui/button'
+import { API_URL } from '@/lib/constants'
+import { usePrivy } from '@privy-io/react-auth'
 import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import { Address, zeroAddress } from 'viem'
 
 const Index = () => {
-	const isLoggedIn = useIsLoggedIn()
-	const { primaryWallet, network } = useDynamicContext()
+	const { login, user } = usePrivy()
 	const [bounties, setBounties] = useState<Bounty[]>([])
 
 	useEffect(() => {
-		const fetchPasswords = async () => {
-			if (primaryWallet && isEthereumWallet(primaryWallet) && network) {
-				const client = await primaryWallet.getPublicClient()
-				try {
-					let creator_ens = await client.getEnsName({
-						address: primaryWallet.address as Address,
-					})
-					toast.success(
-						`Welcome to TEETwitter ${creator_ens || (primaryWallet.address as Address)}!`,
-					)
-				} catch (error) {
-					toast.success(
-						`Welcome to TEETwitter ${primaryWallet.address as Address}!`,
-					)
-				}
-				const bountyIds = await client.readContract({
-					address: bountyAddress[Number(network)],
-					abi: bountyABI,
-					functionName: 'getBounties',
-				})
-				setBounties(
-					(bountyIds as Bounty[])
-						.filter((bounty) => bounty.filledBy !== zeroAddress)
-						.map((bounty, index) => ({
-							...bounty,
-							bountyId: index,
-						})),
-				)
-				console.log('Filled bounties:', bounties)
-			}
+		const fetchBounties = async () => {
+			const res = await fetch(`${API_URL}/bounty/filled`)
+			const data = await res.json()
+			setBounties(data)
 		}
-		fetchPasswords()
-	}, [network])
+		fetchBounties()
+	}, [])
 
-	useEffect(() => {
-		const fetchTokenBalance = async () => {
-			if (primaryWallet && isEthereumWallet(primaryWallet) && network) {
-				const client = await primaryWallet.getPublicClient()
-				const balance = await client.readContract({
-					address: usdcContractAddress[Number(network)],
-					abi: usdcContractAbi,
-					functionName: 'balanceOf',
-					args: [primaryWallet.address as Address],
-				})
-				const name = await client.readContract({
-					address: usdcContractAddress[Number(network)],
-					abi: usdcContractAbi,
-					functionName: 'name',
-				})
-			}
-		}
-		fetchTokenBalance()
-	}, [primaryWallet, network])
-
-	if (!isLoggedIn) {
+	if (!user) {
 		return (
 			<Page>
 				<Section>
@@ -86,10 +32,7 @@ const Index = () => {
 							Pay high performing KOLs, not mediocre ones
 						</h2>
 						<div className='flex justify-center'>
-							<DynamicWidget
-								variant='modal'
-								buttonClassName='bg-white text-purple-600 font-bold py-3 px-6 rounded-full hover:bg-purple-100 transition duration-300 transform hover:scale-105'
-							/>
+							<Button onClick={() => login()}>Login</Button>
 						</div>
 						<div className='mt-12'>
 							<USDCIcon width={50} height={50} className='animate-bounce' />
