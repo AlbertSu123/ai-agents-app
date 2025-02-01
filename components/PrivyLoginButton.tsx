@@ -14,7 +14,7 @@ export const PrivyLoginButton = () => {
 					},
 					body: JSON.stringify({
 						address: user?.wallet?.address,
-						twitterUsername: user?.twitter?.username,
+						twitterHandle: user?.twitter?.username,
 					}),
 				})
 				const data = await res.json()

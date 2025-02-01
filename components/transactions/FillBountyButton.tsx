@@ -3,7 +3,7 @@ import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
 import { Bounty } from '../bounty'
 import { API_URL } from '@/lib/constants'
-import { useWallets } from '@privy-io/react-auth'
+import { getAccessToken, useWallets } from '@privy-io/react-auth'
 
 export default function FillBountyButton({ bounty }: { bounty: Bounty }) {
 	const [tweetLink, setTweetLink] = useState<string | null>(null)
@@ -16,6 +16,7 @@ export default function FillBountyButton({ bounty }: { bounty: Bounty }) {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
+				Authorization: `Bearer ${await getAccessToken()}`,
 			},
 			body: JSON.stringify({
 				tweetId: tweetId,

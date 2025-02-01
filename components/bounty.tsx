@@ -1,5 +1,3 @@
-import { Address, zeroAddress } from 'viem'
-import { formatAddress } from '@/lib/utils'
 import FillBountyButton from './transactions/FillBountyButton'
 import { Tweet } from 'react-tweet'
 
@@ -12,7 +10,7 @@ export type Bounty = {
 	fillingUserId: string | null
 	fillingUser?: {
 		id: string
-		// Add other user fields as needed
+		twitterHandle: string
 	}
 	filled: Date | null
 	createdAt: Date
@@ -29,8 +27,11 @@ export default function BountyCard({ bounty }: { bounty: Bounty }) {
 			<div className='flex justify-between items-start mb-4'>
 				<div>
 					<h3 className='text-lg font-semibold mb-1'>
-						Tweet Keyword: <span className='text-blue-600'>{bounty.title}</span>
+						Title: <span className='text-blue-600'>{bounty.title}</span>
 					</h3>
+					<p className='text-sm text-gray-600'>
+						Description: {bounty.description}
+					</p>
 					<p className='text-sm text-gray-600'>
 						Created by: {bounty.creatingUsername}
 					</p>
@@ -62,11 +63,19 @@ export default function BountyCard({ bounty }: { bounty: Bounty }) {
 			{!isActive && (
 				<div className='border-t pt-4 mt-4'>
 					<p className='text-sm text-gray-600'>
-						Completed by: {bounty.fillingUser?.id}
+						Completed by: {bounty.fillingUser?.twitterHandle}
 					</p>
 					<p className='text-sm text-gray-600'>
 						Completed at:{' '}
-						{new Date(Number(bounty.filled) * 1000).toLocaleDateString()}
+						{bounty.filled
+							? new Date(bounty.filled).toLocaleDateString('en-US', {
+									month: 'long',
+									day: 'numeric',
+									year: 'numeric',
+									hour: '2-digit',
+									minute: '2-digit',
+								})
+							: ''}
 					</p>
 					<Tweet id={bounty.tweetId} />
 				</div>
