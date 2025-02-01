@@ -2,6 +2,7 @@ import BountyCard, { Bounty } from '@/components/bounty'
 import { USDCIcon } from '@/components/icons/USDCIcon'
 import Page from '@/components/page'
 import Section from '@/components/section'
+import { API_URL } from '@/lib/constants'
 import { bountyAddress, bountyABI } from '@/lib/contracts/Bounty'
 import { usdcContractAddress, usdcContractAbi } from '@/lib/contracts/USDC'
 import { isEthereumWallet } from '@dynamic-labs/ethereum'
@@ -21,34 +22,10 @@ const Index = () => {
 
 	useEffect(() => {
 		const fetchPasswords = async () => {
-			if (primaryWallet && isEthereumWallet(primaryWallet) && network) {
-				const client = await primaryWallet.getPublicClient()
-				try {
-					let creator_ens = await client.getEnsName({
-						address: primaryWallet.address as Address,
-					})
-					toast.success(
-						`Welcome to TEETwitter ${creator_ens || (primaryWallet.address as Address)}!`,
-					)
-				} catch (error) {
-					toast.success(
-						`Welcome to TEETwitter ${primaryWallet.address as Address}!`,
-					)
-				}
-				const bountyIds = await client.readContract({
-					address: bountyAddress[Number(network)],
-					abi: bountyABI,
-					functionName: 'getBounties',
-				})
-				setBounties(
-					(bountyIds as Bounty[])
-						.filter((bounty) => bounty.filledBy === zeroAddress)
-						.map((bounty, index) => ({
-							...bounty,
-							bountyId: index,
-						})),
-				)
-			}
+			const response = await fetch(`${API_URL}/bounty`)
+			const data = await response.json()
+			console.log(data)
+			setBounties(data)
 		}
 		fetchPasswords()
 	}, [network])
@@ -105,7 +82,7 @@ const Index = () => {
 				<div className='container mx-auto px-4 py-8'>
 					<h1 className='text-3xl font-bold mb-4'>Available Bounties</h1>
 					{bounties.map((bounty) => (
-						<BountyCard key={bounty.tweetId} bounty={bounty} />
+						<BountyCard key={bounty.id} bounty={bounty} />
 					))}
 				</div>
 			</Section>

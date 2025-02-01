@@ -2,6 +2,7 @@ import { baseSepolia } from 'viem/chains'
 import { createPublicClient, defineChain, Hex, http } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
+export const API_URL = 'http://localhost:80/api'
 export const DEFAULT_CHAIN = baseSepolia
 
 export const account = privateKeyToAccount(

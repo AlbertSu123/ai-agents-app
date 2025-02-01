@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { parseGwei } from 'viem'
 import { bountyAddress, bountyABI } from '@/lib/contracts/Bounty'
 
-export default function FillBountyButton({ bountyId }: { bountyId: number }) {
+export default function FillBountyButton({ bountyId }: { bountyId: string }) {
 	const { primaryWallet, network } = useDynamicContext()
 	const [tweetId, setTweetId] = useState<string | null>(null)
 	const router = useRouter()
