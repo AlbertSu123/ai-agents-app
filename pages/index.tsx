@@ -1,14 +1,14 @@
 import BountyCard, { Bounty } from '@/components/bounty'
 import { USDCIcon } from '@/components/icons/USDCIcon'
 import Page from '@/components/page'
+import { PrivyLoginButton } from '@/components/PrivyLoginButton'
 import Section from '@/components/section'
-import { Button } from '@/components/ui/button'
 import { API_URL } from '@/lib/constants'
 import { usePrivy } from '@privy-io/react-auth'
 import { useEffect, useState } from 'react'
 
 const Index = () => {
-	const { login, user } = usePrivy()
+	const { user } = usePrivy()
 	const [bounties, setBounties] = useState<Bounty[]>([])
 
 	useEffect(() => {
@@ -33,7 +33,7 @@ const Index = () => {
 							Pay high performing KOLs, not mediocre ones
 						</h2>
 						<div className='flex justify-center'>
-							<Button onClick={() => login()}>Login</Button>
+							<PrivyLoginButton />
 						</div>
 						<div className='mt-12'>
 							<USDCIcon width={50} height={50} className='animate-bounce' />

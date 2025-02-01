@@ -2,6 +2,9 @@ import { usePrivy } from '@privy-io/react-auth'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Button } from './ui/button'
+import { useEffect } from 'react'
+import { API_URL } from '@/lib/constants'
+import { PrivyLoginButton } from './PrivyLoginButton'
 
 const links = [
 	{ label: 'Create Bounty', href: '/create' },
@@ -10,7 +13,6 @@ const links = [
 
 const Appbar = () => {
 	const router = useRouter()
-	const { login } = usePrivy()
 
 	return (
 		<div className='fixed top-0 left-0 z-20 w-full bg-zinc-900 pt-safe'>
@@ -46,7 +48,7 @@ const Appbar = () => {
 							</div>
 						</div>
 					</nav>
-					<Button onClick={() => login()}>Login</Button>
+					<PrivyLoginButton />
 				</div>
 			</header>
 		</div>
