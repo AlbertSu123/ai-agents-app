@@ -1,44 +1,40 @@
 import Page from '@/components/page'
-import { useEffect, useState } from 'react'
-import { Address } from 'viem'
+import { useState } from 'react'
 import Section from '@/components/section'
 import { Input } from '@/components/ui/input'
-import { usdcContractAbi, usdcContractAddress } from '@/lib/contracts/USDC'
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
-import { isEthereumWallet } from '@dynamic-labs/ethereum'
-import CreateBountyButton from '@/components/transactions/CreateBountyButton'
+import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
+import { API_URL } from '@/lib/constants'
 
 export default function Create() {
 	const { primaryWallet, network } = useDynamicContext()
-	const [tokenAddress, setTokenAddress] = useState<Address | null>(
-		usdcContractAddress[Number(network)],
-	)
-	const [tokenName, setTokenName] = useState<string | null>(null)
-	const [tokenAmount, setTokenAmount] = useState<number | null>(null)
-	const [minViewCount, setMinViewCount] = useState<string | null>(null)
-	const [keyword, setKeyword] = useState<string | null>(null)
-	const [created, setCreated] = useState<boolean>(false)
+	const [title, setTitle] = useState<string | null>(null)
+	const [description, setDescription] = useState<string | null>(null)
+	const [value, setValue] = useState<number | null>(null)
+	const [bountyScore, setBountyScore] = useState<string | null>(null)
 
-	useEffect(() => {
-		if (!network) return
-		setTokenAddress(usdcContractAddress[Number(network)])
-	}, [network])
-
-	useEffect(() => {
-		if (tokenAddress) {
-			const fetchTokenName = async () => {
-				if (!primaryWallet || !isEthereumWallet(primaryWallet)) return
-				const publicClient = await primaryWallet.getPublicClient()
-				const name = await publicClient.readContract({
-					address: tokenAddress,
-					abi: usdcContractAbi,
-					functionName: 'name',
-				})
-				setTokenName(name)
-			}
-			fetchTokenName()
-		}
-	}, [tokenAddress])
+	const handleTransaction = async () => {
+		const loadingToastId = toast.loading('Creating link...')
+		const res = await fetch(`${API_URL}/bounty`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				title: title,
+				description: description,
+				value: value,
+				bountyScore: Number(bountyScore),
+				creatingUsername: primaryWallet?.address,
+			}),
+		})
+		console.log(res)
+		const data = await res.json()
+		console.log(data)
+		toast.dismiss(loadingToastId)
+		toast.success('Bounty created!')
+	}
 
 	return (
 		<Page>
@@ -51,39 +47,50 @@ export default function Create() {
 						<div className='space-y-6'>
 							<div className='space-y-2'>
 								<label
-									htmlFor='tokenAddress'
+									htmlFor='amount'
 									className='block text-sm font-medium text-gray-700'
 								>
-									Token Address
+									Title
 								</label>
 								<Input
-									id='tokenAddress'
-									placeholder='Enter token address (0x...)'
+									id='title'
+									placeholder='Enter title'
 									type='text'
-									value={tokenAddress ?? ''}
-									onChange={(e) => setTokenAddress(e.target.value as Address)}
+									value={title ?? ''}
+									onChange={(e) => setTitle(e.target.value)}
 									className='w-full'
 								/>
-								{tokenName && (
-									<p className='text-sm text-gray-500 mt-1'>
-										Token: {tokenName}
-									</p>
-								)}
 							</div>
 
 							<div className='space-y-2'>
 								<label
-									htmlFor='amount'
+									htmlFor='description'
 									className='block text-sm font-medium text-gray-700'
 								>
-									Amount
+									Description
 								</label>
 								<Input
-									id='amount'
-									placeholder='Enter token amount'
+									id='description'
+									placeholder='Enter description'
+									type='text'
+									value={description ?? ''}
+									onChange={(e) => setDescription(e.target.value)}
+									className='w-full'
+								/>
+							</div>
+							<div className='space-y-2'>
+								<label
+									htmlFor='value'
+									className='block text-sm font-medium text-gray-700'
+								>
+									Value
+								</label>
+								<Input
+									id='value'
+									placeholder='Enter value'
 									type='number'
-									value={tokenAmount ?? ''}
-									onChange={(e) => setTokenAmount(Number(e.target.value))}
+									value={value ?? ''}
+									onChange={(e) => setValue(Number(e.target.value))}
 									className='w-full'
 								/>
 							</div>
@@ -93,43 +100,24 @@ export default function Create() {
 									htmlFor='minViewCount'
 									className='block text-sm font-medium text-gray-700'
 								>
-									Minimum View Count
+									Bounty Score
 								</label>
 								<Input
-									id='minViewCount'
-									placeholder='Enter minimum view count'
+									id='bountyScore'
+									placeholder='Enter bounty score'
 									type='text'
-									value={minViewCount ?? ''}
-									onChange={(e) => setMinViewCount(e.target.value)}
+									value={bountyScore ?? ''}
+									onChange={(e) => setBountyScore(e.target.value)}
 									className='w-full'
 								/>
 							</div>
-
-							<div className='space-y-2'>
-								<label
-									htmlFor='keyword'
-									className='block text-sm font-medium text-gray-700'
-								>
-									Keyword
-								</label>
-								<Input
-									id='keyword'
-									placeholder='Enter keyword'
-									type='text'
-									value={keyword ?? ''}
-									onChange={(e) => setKeyword(e.target.value)}
-									className='w-full'
-								/>
-							</div>
-
 							<div className='pt-6'>
-								<CreateBountyButton
-									tokenAddress={tokenAddress}
-									tokenAmount={tokenAmount}
-									minViewCount={minViewCount}
-									keyword={keyword}
-									onCreated={() => setCreated(true)}
-								/>
+								<Button
+									onClick={handleTransaction}
+									disabled={!title || !description || !value || !bountyScore}
+								>
+									Create Bounty
+								</Button>
 							</div>
 						</div>
 					</div>
