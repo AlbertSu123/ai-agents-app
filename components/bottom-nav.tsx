@@ -1,4 +1,4 @@
-import { ChartCandlestick, GiftIcon, HomeIcon, PenIcon } from 'lucide-react'
+import { GiftIcon, HomeIcon, PenIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 

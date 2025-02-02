@@ -1,9 +1,5 @@
-import { usePrivy } from '@privy-io/react-auth'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Button } from './ui/button'
-import { useEffect } from 'react'
-import { API_URL } from '@/lib/constants'
 import { PrivyLoginButton } from './PrivyLoginButton'
 
 const links = [

@@ -1,4 +1,4 @@
-import FillBountyButton from './transactions/FillBountyButton'
+import FillBountyButton from './buttons/FillBountyButton'
 import { Tweet } from 'react-tweet'
 
 export type Bounty = {
