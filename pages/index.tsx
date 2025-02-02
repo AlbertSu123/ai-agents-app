@@ -25,8 +25,8 @@ const Index = () => {
 	if (!user) {
 		return (
 			<Page>
-				<Section>
-					<div className='container mx-auto px-4 flex flex-col items-center justify-center min-h-screen'>
+				<Section className='min-h-[30vh] flex items-center'>
+					<div className='container mx-auto px-4 flex flex-col items-center justify-center'>
 						<h1 className='text-5xl font-extrabold text-center mb-6 text-black shadow-text'>
 							Amplify the narratives you care about
 						</h1>
@@ -36,8 +36,18 @@ const Index = () => {
 						<div className='flex justify-center'>
 							<PrivyLoginButton />
 						</div>
-						<div className='mt-12'>
+						<div className='mt-8'>
 							<USDCIcon width={50} height={50} className='animate-bounce' />
+						</div>
+					</div>
+				</Section>
+				<Section className='bg-gray-50'>
+					<div className='container mx-auto px-4 py-8'>
+						<h1 className='text-3xl font-bold mb-8'>Available Bounties</h1>
+						<div className='space-y-6'>
+							{bounties.map((bounty) => (
+								<BountyCard key={bounty.id} bounty={bounty} />
+							))}
 						</div>
 					</div>
 				</Section>
