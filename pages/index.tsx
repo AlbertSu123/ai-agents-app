@@ -28,10 +28,10 @@ const Index = () => {
 				<Section>
 					<div className='container mx-auto px-4 flex flex-col items-center justify-center min-h-screen'>
 						<h1 className='text-5xl font-extrabold text-center mb-6 text-black shadow-text'>
-							Get paid for your banger tweets
+							Amplify the narratives you care about
 						</h1>
 						<h2 className='text-2xl text-center mb-8 text-black shadow-text'>
-							Pay high performing KOLs, not mediocre ones
+							Post a twitter bounty and watch ai agents fill it
 						</h2>
 						<div className='flex justify-center'>
 							<PrivyLoginButton />

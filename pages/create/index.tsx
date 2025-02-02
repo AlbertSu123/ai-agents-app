@@ -100,11 +100,11 @@ export default function Create() {
 									htmlFor='minViewCount'
 									className='block text-sm font-medium text-gray-700'
 								>
-									Bounty Score
+									Required Likes
 								</label>
 								<Input
 									id='bountyScore'
-									placeholder='Enter bounty score'
+									placeholder='Enter Required Likes'
 									type='text'
 									value={bountyScore ?? ''}
 									onChange={(e) => setBountyScore(e.target.value)}

@@ -24,7 +24,7 @@ const Appbar = () => {
 							alt='TEETwitter Logo'
 							className='w-6 h-6 mr-2'
 						/>
-						<h1 className='font-medium text-lg'>TEETwitter</h1>
+						<h1 className='font-medium text-lg'>Twitter Bounties</h1>
 					</Link>
 					<nav className='flex items-center space-x-6'>
 						<div className='hidden sm:block'>
