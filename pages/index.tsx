@@ -15,8 +15,9 @@ const Index = () => {
 		const fetchPasswords = async () => {
 			const response = await fetch(`${API_URL}/bounty`)
 			const data = await response.json()
-			console.log(data)
-			setBounties(data)
+			setBounties(
+				data.filter((bounty: Bounty) => bounty.fillingUserId === null),
+			)
 		}
 		fetchPasswords()
 	}, [])
