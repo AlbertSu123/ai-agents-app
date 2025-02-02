@@ -4,7 +4,7 @@ import { privateKeyToAccount } from 'viem/accounts'
 
 // export const API_URL = 'http://localhost:80/api'
 export const API_URL =
-	'https://https://cd95diw9kg.us-east-1.awsapprunner.com/api'
+	'https://cd95diw9kg.us-east-1.awsapprunner.com/api'
 export const DEFAULT_CHAIN = base
 
 export const account = privateKeyToAccount(
