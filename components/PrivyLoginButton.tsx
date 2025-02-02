@@ -27,5 +27,11 @@ export const PrivyLoginButton = () => {
 		return <Button onClick={() => login()}>Login</Button>
 	}
 
-	return <Button onClick={() => logout()}>Logout</Button>
+	return (
+		<div className='flex items-center gap-2'>
+			<Button onClick={() => logout()}>
+				Logout of @{user.twitter?.username}
+			</Button>
+		</div>
+	)
 }
