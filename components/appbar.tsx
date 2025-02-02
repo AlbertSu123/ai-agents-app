@@ -5,6 +5,7 @@ import { PrivyLoginButton } from './PrivyLoginButton'
 const links = [
 	{ label: 'Create Bounty', href: '/create' },
 	{ label: 'Filled Bounties', href: '/filled' },
+	{ label: 'Tweets', href: '/tweets' },
 ]
 
 const Appbar = () => {

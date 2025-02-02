@@ -1,4 +1,4 @@
-import { GiftIcon, HomeIcon, PenIcon } from 'lucide-react'
+import { BirdIcon, GiftIcon, HomeIcon, PenIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -48,5 +48,10 @@ const links = [
 		label: 'Filled',
 		href: '/filled',
 		icon: <GiftIcon />,
+	},
+	{
+		label: 'Tweets',
+		href: '/tweets',
+		icon: <BirdIcon />,
 	},
 ]
