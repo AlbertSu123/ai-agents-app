@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+body {
+	@apply min-h-screen select-none bg-[#111111] text-white antialiased p-safe;
+
+	/* PWA enhancements */
+	-webkit-overflow-scrolling: touch;
+	-webkit-tap-highlight-color: transparent;
+	-webkit-touch-callout: none;
+
+	/* Grid background like in the image */
+	background-image:
+		linear-gradient(rgba(50, 50, 50, 0.1) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(50, 50, 50, 0.1) 1px, transparent 1px);
+	background-size: 20px 20px;
+}
+
+@layer base {
+	:root {
+		--radius: 0px; /* Remove border radius for the flat design */
+	}
+
+	/* Make all text uppercase like in the image */
+	h1, h2, h3, h4, h5, h6 {
+		@apply uppercase tracking-wider;
+	}
+
+	/* Style for buttons to match the image */
+	button, a {
+		@apply uppercase tracking-wider;
+	}
+
+	/* Remove transitions for the sharp, digital look */
+	* {
+		transition-duration: 0ms !important;
+	}
+}
+
+/* Custom utility classes */
+.shadow-text {
+	text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
