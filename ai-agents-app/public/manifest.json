@@ -1,7 +1,7 @@
 {
-	"name": "Twitter Bounties",
-	"short_name": "Bounties",
-	"description": "Platform for Twitter bounties and rewards",
+	"name": "Megaphone AI",
+	"short_name": "Megaphone",
+	"description": "Platform for AI voice generation",
 	"icons": [
 		{
 			"src": "/images/favicon.png",

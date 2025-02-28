@@ -49,7 +49,7 @@ const Appbar = () => {
 								className='w-6 h-6 mr-2'
 							/>
 							<span className='font-mono uppercase tracking-wider text-lg'>
-								Twitter Bounties
+								Megaphone AI
 							</span>
 						</Link>
 
