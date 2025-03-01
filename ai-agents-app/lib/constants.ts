@@ -10,9 +10,8 @@ import {
 } from 'viem/chains'
 import { createPublicClient, defineChain, http, Chain } from 'viem'
 
-export const API_URL = 'http://localhost:80/api'
-// export const API_URL =
-// 	'https://cd95diw9kg.us-east-1.awsapprunner.com/api'
+// export const API_URL = 'http://localhost:80/api'
+export const API_URL = 'https://cd95diw9kg.us-east-1.awsapprunner.com/api'
 export const DEFAULT_CHAIN = base
 
 // Updated to accept a chain parameter
